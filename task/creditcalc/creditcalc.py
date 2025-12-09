@@ -37,7 +37,6 @@ interest = args.interest
 #calculate nominal interest
 if interest:
     interest = nominal_interest(interest)
-    # print('nominal interest set to:', interest)
 
 ## logical selection of functions
 
