@@ -1,39 +1,9 @@
 import math
 import argparse
-# write your code here
 
 def print_return_input():
     print("> ", end="")
     return input()
-
-# print("Enter the loan principal:")
-# loan_principal = int(print_return_input())
-#
-# def number_of_month_payments():
-#     print("Enter the monthly payment:")
-#     monthly_amount = int(print_return_input())
-#     monthly_amount = math.ceil(loan_principal / monthly_amount)
-#     return monthly_amount
-#
-# def amount_per_month():
-#     print('Enter the number of months:')
-#     num_of_months = int(print_return_input())
-#     regular_amount = math.ceil(loan_principal / num_of_months)
-#     last_payment = loan_principal - (num_of_months - 1) * regular_amount
-#     print(f'Your monthly payment = {regular_amount} and the last payment = {last_payment}.')
-#
-# print("What do you want to calculate?")
-# print('type "m" - for number of monthly payments,')
-# print('type "p" - for the monthly payment:')
-#
-# # input selection of process
-# selection = print_return_input()
-# if selection == "m":
-#     monthly_payment = number_of_month_payments()
-#     print(f"It will take {monthly_payment} months to repay the loan")
-# elif selection == "p":
-#     amount_per_month()
-#     exit()
 
 def nominal_interest(i_rate):
     return i_rate / (12 * 100)
