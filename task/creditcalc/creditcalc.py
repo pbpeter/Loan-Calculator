@@ -58,7 +58,7 @@ parser.add_argument("--interest", nargs='?', type=float, help='is specified with
 
 args = parser.parse_args()
 
-# assign passed arguments
+## assign passed arguments
 payment = args.payment
 principal = args.principal
 periods = args.periods
@@ -69,7 +69,7 @@ if interest:
     interest = nominal_interest(interest)
     # print('nominal interest set to:', interest)
 
-# logical selection of functions
+## logical selection of functions
 
 # p = payment, i = monthly interest in 12% = 0.01 , n = number of payments
 def annuity_payment(p, i, n):
@@ -77,6 +77,12 @@ def annuity_payment(p, i, n):
     denominator = ((1 + i) ** n) - 1
     temp = counter / denominator
     return p * temp
+
+def calculate_loan_principal(a, i, n):
+    below_fraction = i * (1 + i) ** n
+    below_denominator = ((1 + i) ** n) - 1
+    below_result = below_fraction / below_denominator
+    return a / below_result
 
 def calculate_number_of_payments(credit, rate, i_rate):
     fraction_denominator = rate - (i_rate * credit)
@@ -107,17 +113,24 @@ def build_and_print_duration_text(months):
     text = get_duration_text(years, months)
     print(text)
 
-# calculation decision
+## calculation decision
 # ---> calculate number of months
 if principal and interest and payment and not periods:
     value = calculate_number_of_payments(principal, payment, interest)
     value = math.ceil(value)
     build_and_print_duration_text(value)
-# ---> calculate monthly payment
+# ---> calculate monthly payment (ordinary annuit)
 elif principal and periods and interest and not payment:
     print("You should calculate the monthly payment.")
     pay_per_month = annuity_payment(principal, interest, periods)
     pay_per_month = math.ceil(pay_per_month)
     print(f'Your monthly payment = {pay_per_month}!')
+# ---> calculate loan principal
+elif periods and interest and payment and not principal:
+    value = calculate_loan_principal(payment, interest, periods)
+    value = int(value)
+    print(f'Your loan principal = {value}!')
+else:
+    print("Something went wrong. Please check your input. ")
 
 
