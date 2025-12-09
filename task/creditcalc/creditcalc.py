@@ -38,8 +38,6 @@ def print_return_input():
 def nominal_interest(i_rate):
     return i_rate / (12 * 100)
 
-
-
 parser = argparse.ArgumentParser(prog="Loan Calculator",
                                  description="Personal finance can be tricky, but it doesn't have to be! "
                                              "This project helps you understand loans and mortgages with a handy "
@@ -59,13 +57,12 @@ parser.add_argument("--interest", nargs='?', type=float, help='is specified with
                                                               'always be provided.')
 
 args = parser.parse_args()
+
 # assign passed arguments
 payment = args.payment
 principal = args.principal
 periods = args.periods
 interest = args.interest
-
-ordinary_annuity = 0.0
 
 #calculate nominal interest
 if interest:
@@ -81,14 +78,6 @@ def annuity_payment(p, i, n):
     temp = counter / denominator
     return p * temp
 
-
-
-# for anyone whos struggling with the log function in example 1:
-# n = log 1 + i (A / A − i ∗ P)
-# math.log(x, base)
-# x = (A / A − i ∗ P)
-# base = 1 + i
-
 def calculate_number_of_payments(credit, rate, i_rate):
     fraction_denominator = rate - (i_rate * credit)
     fraction = rate / fraction_denominator
@@ -103,7 +92,6 @@ def calculate_months(months, years):
     return remainder
 
 def get_duration_text(years, months):
-    #It will take 8 years and 2 months to repay this loan!
     if years > 0 and months > 0:
         return f'It will take {years} years and {months} months to repay this loan!'
     elif years > 0 and months == 0:
@@ -119,18 +107,17 @@ def build_and_print_duration_text(months):
     text = get_duration_text(years, months)
     print(text)
 
-#annuity payment
-# a = annuity_payment(principal, interest, 97.71)
-# print(f'example: annuity payment is {a}')
-
-
 # calculation decision
 # ---> calculate number of months
 if principal and interest and payment and not periods:
     value = calculate_number_of_payments(principal, payment, interest)
     value = math.ceil(value)
     build_and_print_duration_text(value)
-elif principal and payment and interest and not periods:
-    pass
+# ---> calculate monthly payment
+elif principal and periods and interest and not payment:
+    print("You should calculate the monthly payment.")
+    pay_per_month = annuity_payment(principal, interest, periods)
+    pay_per_month = math.ceil(pay_per_month)
+    print(f'Your monthly payment = {pay_per_month}!')
 
 
