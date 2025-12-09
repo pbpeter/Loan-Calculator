@@ -70,7 +70,7 @@ ordinary_annuity = 0.0
 #calculate nominal interest
 if interest:
     interest = nominal_interest(interest)
-    print('nominal interest set to:', interest)
+    # print('nominal interest set to:', interest)
 
 # logical selection of functions
 
@@ -95,23 +95,41 @@ def calculate_number_of_payments(credit, rate, i_rate):
     base = 1 + i_rate
     return math.log(fraction, base)
 
+def calculate_years(months):
+    return months // 12
 
+def calculate_months(months, years):
+    remainder = months % 12
+    return remainder
+
+def get_duration_text(years, months):
+    #It will take 8 years and 2 months to repay this loan!
+    if years > 0 and months > 0:
+        return f'It will take {years} years and {months} months to repay this loan!'
+    elif years > 0 and months == 0:
+        return f'It will take {years} years to repay this loan!'
+    elif years == 0 and months > 0:
+        return f'It will take {months} months to repay this loan!'
+    else:
+        return 'There is neither a year nor a month, and that should not happen.'
+
+def build_and_print_duration_text(months):
+    years = calculate_years(months)
+    months = calculate_months(months, years)
+    text = get_duration_text(years, months)
+    print(text)
 
 #annuity payment
-a = annuity_payment(principal, interest, 97.71)
-print(f'example: annuity payment is {a}')
-
-print("Number of payments")
-value = calculate_number_of_payments(principal, payment, interest)
-print(value)
-value = math.ceil(value)
-print(f"Wert aufgerundet: {value}")
+# a = annuity_payment(principal, interest, 97.71)
+# print(f'example: annuity payment is {a}')
 
 
-# ordinary annuity
-if principal and interest and periods and not payment:
-    value = calculate_number_of_payments()
-    print(f'value: {value}')
+# calculation decision
+# ---> calculate number of months
+if principal and interest and payment and not periods:
+    value = calculate_number_of_payments(principal, payment, interest)
+    value = math.ceil(value)
+    build_and_print_duration_text(value)
 elif principal and payment and interest and not periods:
     pass
 
